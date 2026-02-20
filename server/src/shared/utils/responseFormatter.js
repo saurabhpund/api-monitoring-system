@@ -76,4 +76,4 @@ class ResponseFormatter {
     }
 }
 
-export default ResponseFormatter;
+export default new ResponseFormatter;
