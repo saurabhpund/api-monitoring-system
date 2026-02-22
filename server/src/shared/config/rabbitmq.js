@@ -1,6 +1,5 @@
-import { error } from "winston";
-import { config } from "./index"
-import logger from "./logger"
+import { config } from "./index.js"
+import logger from "./logger.js"
 import amqp from "amqplib";
 
 class RabbitMQConnection{
@@ -104,4 +103,4 @@ class RabbitMQConnection{
 
 }
 
-export default new RabbitMQConnection;
+export default new RabbitMQConnection();

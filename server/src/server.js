@@ -1,19 +1,18 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import config from './shared/config/index.js';
 import logger from './shared/config/logger.js';
 import mongodb from './shared/config/mongodb.js';
 import postgres from './shared/config/postgres.js';
 import rabbitmq from './shared/config/rabbitmq.js';
-import errorHandler from './shared/middlewares/errorHandler.js';
 import ResponseFormatter from './shared/utils/responseFormatter.js';
+import { config } from './shared/config/index.js';
+import errorHandler from './shared/middleware/errorHandler.js';
 
 /**
  * Initialize Express app
  */
 const app = express();
-
 /**
  * Middlewares
  */
@@ -130,22 +129,9 @@ async function startServer() {
                 logger.error("Forced shutdown")
                 process.exit(1);
             }, 10000);
-
         }
 
-        process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
-        process.on("SIGINT", () => gracefulShutdown("SIGINT"));
-
-        // Handle uncaught exceptions
-        process.on('uncaughtException', (error) => {
-            logger.error('Uncaught Exception:', error);
-            gracefulShutdown('uncaughtException');
-        });
-
-        process.on('unhandledRejection', (reason, promise) => {
-            logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
-            gracefulShutdown('unhandledRejection');
-        });
+        
 
     } catch (error) {
         logger.error('Failed to start server:', error);
